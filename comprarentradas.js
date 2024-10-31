@@ -7,21 +7,43 @@ function comprarentradas(){
     let edad = document.getElementById("edad").value;
     let dni = document.getElementById("dni").value;
     let genero = document.getElementById("genero").value;
-
+    let cantidad_entradas = document.getElementById("cantidad_entradas").value;
+    // cantidad entrdas y tipo, precio
+    // descuentos 
+    let cliente = {
+        nombre: nombre,
+        apellidos: apellidos,
+        email: email,
+        edad: edad,
+        dni: dni,
+        genero: genero,
+        descuento: null,
+    }
     if (edad < 18){
-        alert("No puedes comprar entradas si eres menor de edad");
+        cliente.descuento = true
         return;
     }
+
+    else {
+        cliente.descuento = false
+    }
+
+
     if (nombre === 'melendi'){
         return {
-            nombre:nombre,
-            dni:dni,
-            artista: "melendi",
-            lugar: "palacio vistaalegre",
-            fecha: "12-12-2020",
-            cliente: true,
-            menores: true,
-
+            nombre: cliente.nombre,
+            apellidos: cliente.apellidos,
+            email: cliente.email,
+            edad: cliente.edad,
+            dni: cliente.dni,
+            genero: cliente.genero,
+            descuento: cliente.descuento,
+            numero_entradas: cantidad_entradas,
+            artista: conciertos[0].artista,
+            lugar: conciertos[0].lugar,
+            fecha: conciertos[0].fecha,
+            limite_entradas: conciertos[0].limite_entradas,
+            cancelable: conciertos[0].cancelable,
         }
     }
 
