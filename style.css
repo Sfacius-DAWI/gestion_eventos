@@ -1,0 +1,46 @@
+* {
+  box-sizing: border-box;
+}
+
+main {
+  width: 100%;
+  text-align: center;
+}
+
+#conciertos {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+#conciertos img {
+  width: 300px;
+  height: 300px;
+  margin: 10px;
+}
+
+#conciertos img:hover {
+  opacity: 50%;
+  cursor: pointer;
+}
+
+form{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 20%;
+  
+}
+
+form label {
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+form input {
+  margin: 10px;
+}
+
+form select {
+  margin: 10px;
+}
