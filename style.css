@@ -23,3 +23,24 @@ main {
   opacity: 50%;
   cursor: pointer;
 }
+
+form{
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 20%;
+  
+}
+
+form label {
+  margin: 10px;
+  margin-bottom: 0;
+}
+
+form input {
+  margin: 10px;
+}
+
+form select {
+  margin: 10px;
+}
