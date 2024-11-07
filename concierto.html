@@ -9,6 +9,13 @@
     <main id="main">
       <h1>Haz tu reserva</h1>
       <form>
+        <label for="artista">Artista:</label>
+        <select name="artista" id="artista">
+          <option value="melendi">Melendi</option>
+          <option value="acdc">AC/DC</option>
+          <option value="estopa">Estopa</option>
+        </select>
+
         <label for="nombre">Nombre:</label>
         <input type="text" name="nombre" id="nombre" />
 
@@ -37,10 +44,12 @@
         <input type="number" name="entradasVIP" id="entradasVIP" />
 
         <label for="suplemento">Asegurar entradas:</label>
-        <input type="checkbox" name="suplemento" id="suplemento">
+        <input type="checkbox" name="suplemento" id="suplemento" />
 
         <label for="descuento">Código de descuento:</label>
-        <input type="text" name="descuento" id="descuento">
+        <input type="text" name="descuento" id="descuento" />
+
+        <input type="submit" value="Enviar" onclick="Visualizar()" />
       </form>
       <div id="respuesta"></div>
     </main>
