@@ -32,8 +32,16 @@ let conciertos = [
         descuento: null,
     }
 
+    if (edad < 18){
+        cliente.descuento = true
+        return;
+    }
 
-    if (artista === 'melendi'){ 
+    else {
+        cliente.descuento = false
+    }
+
+    if (artista === 'melendi'){
         return {
             nombre: cliente.nombre,
             apellidos: cliente.apellidos,
@@ -80,14 +88,16 @@ const estadoVentas = {
     totalGeneralVendidas:0,
 }
 
-function descuentoValidator(descuento) {
-    if (descuento !== "JSA24") {
+function descuentoValidator(comparEntradas) {
+    if (comparEntradas.descuento !== "JSA24") {
         alert("Código de descuento inválido");
         return false;
     }
 }
 
-function calculoCompra( entradas, suplemento) {
+function calculoCompra (){
+
+    const comprarEntradas = comprarentradas();
     //entrada será un obj o array que tendrá la cantidad y el tipo de cada entrada
     // ["VIP#3", "General#4"]
     const precioVip = 50;
@@ -97,9 +107,9 @@ function calculoCompra( entradas, suplemento) {
     const precioSuplementoGeneral = 3;
     let total = 0;
 
-    entradas.forEach(entrada => {
+    comprarEntradas.numero_entradas.forEach(entrada => {
         //divido la entrada en tipo y cantidad
-        let [tipo, cantidad] = entrada.split("#");
+        let [tipo, cantidad] = comprarEntradas.numero_entradas.split("#");
         //paso la cantidad a número
         cantidad = parseInt(cantidad, 10);
         //límite de compra de 4
@@ -110,19 +120,19 @@ function calculoCompra( entradas, suplemento) {
         if (tipo === "VIP") {
             total += cantidad * precioVip;
             estadoVentas.totalVipVendidas += cantidad;
-            if (suplemento) {
+            if (comprarEntradas.suplemento) {
                 total += cantidad * precioSuplementoVip;
             }
         } else if (tipo === "General") {
             total += cantidad * precioGeneral;
             estadoVentas.totalGeneralVendidas += cantidad;
-            if (suplemento) {
+            if (comprarEntradas.suplemento) {
                 total += cantidad * precioSuplementoGeneral;
             }
         }
     });
     //el descuento será un 10% del total
-    if (descuentoValidator()) {
+    if (descuentoValidator(comprarEntradas)) {
         total -= total * 0.1;
     }
 
@@ -137,5 +147,5 @@ function calculoCompra( entradas, suplemento) {
         alert("No quedan entradas VIP disponibles");
     }
 
-    return total;
+    //return total;
 }
