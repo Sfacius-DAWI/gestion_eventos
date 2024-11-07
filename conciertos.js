@@ -19,6 +19,7 @@ let conciertos = [
     let entradas_general = document.getElementById("entradas_general").value;
     let cantidad_entradas = { entradas_vip: entradas_vip, entradas_generales: entradas_general };
     let suplemento = document.getElementById("suplemento").value;
+    let artista = document.getElementById("artista").value;
 
 
     let cliente = {
@@ -31,17 +32,8 @@ let conciertos = [
         descuento: null,
     }
 
-    if (edad < 18){
-        cliente.descuento = true
-        return;
-    }
 
-    else {
-        cliente.descuento = false
-    }
-
-
-    if (nombre === 'melendi'){
+    if (artista === 'melendi'){ 
         return {
             nombre: cliente.nombre,
             apellidos: cliente.apellidos,
