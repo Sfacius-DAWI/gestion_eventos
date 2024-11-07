@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <title>Gestión de Conciertos</title>
     <link rel="stylesheet" href="style.css" />
-    <script src="conciertos.js"/>
+    <script src="conciertos.js"></script>
   </head>
   <body>
     <main id="main">
@@ -38,18 +38,16 @@
           <option value="masculino">Mujer</option>
         </select>
 
-        <label for="entradas">Número entradas normales:</label>
-        <input type="number" name="entradas" id="entradas" />
+        <label for="entradas_general">Número entradas normales:</label>
+        <input type="number" name="entradas_general" id="entradas_general" />
 
-        <label for="entradasVIP">Número entradas VIP:</label>
-        <input type="number" name="entradasVIP" id="entradasVIP" />
-
-        <label for="suplemento">Asegurar entradas:</label>
-        <input type="checkbox" name="suplemento" id="suplemento">
+        <label for="entradas_vip">Número entradas VIP:</label>
+        <input type="number" name="entradas_vip" id="entradas_vip" />
 
         <label for="descuento">Código de descuento:</label>
-        <input type="text" name="descuento" id="descuento">
+        <input type="text" name="descuento" id="descuento" />
       </form>
+      <input type="submit" value="Enviar" onclick="calculoCompra()" />
       <div id="respuesta"></div>
     </main>
   </body>
