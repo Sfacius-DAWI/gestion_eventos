@@ -2,8 +2,22 @@ let conciertos = [
   {
     artista: "melendi",
     lugar: "palacio vistaalegre",
-    fecha: "12-12-2020",
+    fecha: "12-11-2024",
     limite_entradas: 1000,
+    cancelable: true,
+  },
+  {
+    artista: "ac/dc",
+    lugar: "palacio vistaalegre",
+    fecha: "07-17-2026",
+    limite_entradas: 20000,
+    cancelable: true,
+  },
+  {
+    artista: "estopa",
+    lugar: "palacio vistaalegre",
+    fecha: "12-11-2025",
+    limite_entradas: 700,
     cancelable: true,
   },
 ];
@@ -55,6 +69,38 @@ function comprarentradas() {
       fecha: conciertos[0].fecha,
       limite_entradas: conciertos[0].limite_entradas,
       cancelable: conciertos[0].cancelable,
+    };
+  } else if (artista === "ac/dc") {
+    return {
+      nombre: cliente.nombre,
+      apellidos: cliente.apellidos,
+      email: cliente.email,
+      edad: cliente.edad,
+      dni: cliente.dni,
+      genero: cliente.genero,
+      descuento: cliente.descuento,
+      numero_entradas: cantidad_entradas,
+      artista: conciertos[1].artista,
+      lugar: conciertos[1].lugar,
+      fecha: conciertos[1].fecha,
+      limite_entradas: conciertos[1].limite_entradas,
+      cancelable: conciertos[1].cancelable,
+    };
+  } else if (artista === "estopa") {
+    return {
+      nombre: cliente.nombre,
+      apellidos: cliente.apellidos,
+      email: cliente.email,
+      edad: cliente.edad,
+      dni: cliente.dni,
+      genero: cliente.genero,
+      descuento: cliente.descuento,
+      numero_entradas: cantidad_entradas,
+      artista: conciertos[2].artista,
+      lugar: conciertos[2].lugar,
+      fecha: conciertos[2].fecha,
+      limite_entradas: conciertos[2].limite_entradas,
+      cancelable: conciertos[2].cancelable,
     };
   }
 }
@@ -132,5 +178,61 @@ function calculoCompra() {
   }
 
   //return total;
-  document.getElementById("respuesta").innerHTML = total;
+  document.getElementById("respuesta").innerHTML +=
+    "Total: " + total + " €<br>";
+}
+
+function calcularDiasRestantes() {
+  const comprarEntradas = comprarentradas();
+
+  const fechaConcierto = new Date(comprarEntradas.fecha);
+  const hoy = new Date();
+  let diasRestantes = Math.floor(
+    (fechaConcierto.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24)
+  );
+
+  document.getElementById("respuesta").innerHTML +=
+    "Días restantes: " + diasRestantes + "<br>";
+}
+
+function crearDescripcion() {
+  const comprarEntradas = comprarentradas();
+
+  let partesFecha = comprarEntradas.fecha.split("-");
+  let fecha = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]);
+
+  const meses = [
+    "enero",
+    "febrero",
+    "marzo",
+    "abril",
+    "mayo",
+    "junio",
+    "julio",
+    "agosto",
+    "septiembre",
+    "octubre",
+    "noviembre",
+    "diciembre",
+  ];
+
+  let fechaFormateada = `${fecha.getDate()} de ${
+    meses[fecha.getMonth()]
+  } de ${fecha.getFullYear()}`;
+
+  document.getElementById("respuesta").innerHTML +=
+    "Descripción: Concierto de " +
+    comprarEntradas.artista +
+    " en " +
+    comprarEntradas.lugar +
+    " el " +
+    fechaFormateada +
+    "<br>";
+}
+
+function Enviar() {
+  document.getElementById("respuesta").innerHTML = "";
+  calculoCompra();
+  calcularDiasRestantes();
+  crearDescripcion();
 }
