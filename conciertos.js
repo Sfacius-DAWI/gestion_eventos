@@ -2,7 +2,7 @@ let conciertos = [
   {
     artista: "melendi",
     lugar: "palacio vistaalegre",
-    fecha: new Date("2024-11-12T00:00:00"),
+    fecha: new Date("2024-11-17T00:00:00"),
     limite_entradas: 1000,
     cancelable: true,
   },
@@ -186,11 +186,9 @@ function calculoCompra() {
 
 function calcularDiasRestantes() {
   const comprarEntradas = comprarentradas();
-
-  const fechaConcierto = new Date(comprarEntradas.fecha);
   const hoy = new Date();
   let diasRestantes = Math.floor(
-    (fechaConcierto.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24)
+    (comprarEntradas.fecha.getTime() - hoy.getTime()) / (1000 * 60 * 60 * 24)
   );
 
   document.getElementById("respuesta").innerHTML +=
@@ -200,27 +198,9 @@ function calcularDiasRestantes() {
 function crearDescripcion() {
   const comprarEntradas = comprarentradas();
 
-  let partesFecha = comprarEntradas.fecha.split("-");
-  let fecha = new Date(partesFecha[2], partesFecha[1] - 1, partesFecha[0]);
-
-  const meses = [
-    "enero",
-    "febrero",
-    "marzo",
-    "abril",
-    "mayo",
-    "junio",
-    "julio",
-    "agosto",
-    "septiembre",
-    "octubre",
-    "noviembre",
-    "diciembre",
-  ];
-
-  let fechaFormateada = `${fecha.getDate()} de ${
-    meses[fecha.getMonth()]
-  } de ${fecha.getFullYear()}`;
+  let dia = comprarEntradas.fecha.getDate();
+  let mes = comprarEntradas.fecha.getMonth();
+  let año = comprarEntradas.fecha.getFullYear();
 
   document.getElementById("respuesta").innerHTML +=
     "Descripción: Concierto de " +
@@ -228,16 +208,26 @@ function crearDescripcion() {
     " en " +
     comprarEntradas.lugar +
     " el " +
-    fechaFormateada +
+    dia +
+    "/" +
+    mes +
+    "/" +
+    año +
     "<br>";
 }
 
 function validarCampos() {
   const campos = [
-      "nombre", "apellidos", "email", "dni", "edad", "entradas_general", "entradas_vip"
-  ]
+    "nombre",
+    "apellidos",
+    "email",
+    "dni",
+    "edad",
+    "entradas_general",
+    "entradas_vip",
+  ];
 
-  for(let campo of campos){
+  for (let campo of campos) {
     let valor = document.getElementById(campo).value;
 
     if (campo === "entradas_general" || campo === "entradas_vip") {
@@ -247,12 +237,23 @@ function validarCampos() {
         alert("Por favor, introduzca mínimo 1 entrada");
         return false;
       }
-    } else if (valor.trim() === ""){
+    } else if (valor.trim() === "") {
       alert("Por favor, rellene el campo " + campo);
       return false;
     }
     return true;
   }
+}
+
+function calcularDivisionIngresos(porcentajeArtista) {
+  let total = estadoVentas.totalGanado;
+  let gananciaArtista = total * porcentajeArtista;
+  let gananciaPromotor = total - gananciaArtista;
+
+  document.getElementById("respuesta").innerHTML +=
+    "Ganancia artista: " + gananciaArtista.toFixed(2) + " €<br>";
+  document.getElementById("respuesta").innerHTML +=
+    "Ganancia promotor: " + gananciaPromotor.toFixed(2) + " €<br>";
 }
 
 function Enviar() {
