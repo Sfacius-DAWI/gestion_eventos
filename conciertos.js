@@ -228,13 +228,14 @@ function validarCampos() {
     "entradas_vip",
   ];
 
-  for (let campo of campos) {
+  for(let campo of campos) {
     let valor = document.getElementById(campo).value;
-
+    console.log(valor);
     if (campo === "entradas_general" || campo === "entradas_vip") {
       let entradasGeneral = document.getElementById("entradas_general").value;
       let entradasVip = document.getElementById("entradas_vip").value;
-      if (entradasGeneral.trim() === "" && entradasVip.trim() === "") {
+      console.log(entradasGeneral, entradasVip);
+      if ((entradasGeneral.trim() === "" && entradasVip.trim() === "") || (entradasGeneral <= 0 && entradasVip <= 0)) {
         alert("Por favor, introduzca mínimo 1 entrada");
         return false;
       }
@@ -242,8 +243,8 @@ function validarCampos() {
       alert("Por favor, rellene el campo " + campo);
       return false;
     }
-    return true;
   }
+  return true;
 }
 
 async function programarNotificación(artista) {
