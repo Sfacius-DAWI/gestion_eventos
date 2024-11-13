@@ -150,14 +150,16 @@ function calculoCompra() {
     alert("Sólo se pueden comprar hasta 4 entradas por persona");
   }
 
-  total += vip * precioVip;
-  estadoVentas.totalVipVendidas += vip;
-
-  total += general * precioGeneral;
-  estadoVentas.totalGeneralVendidas += general;
+  if (!isNaN(vip) && vip !== 0) {
+    total += vip * precioVip;
+    estadoVentas.totalVipVendidas += vip;
+  }
+  if (!isNaN(general) && general !== 0) {
+    total += general * precioGeneral;
+    estadoVentas.totalGeneralVendidas += general;
+  }
 
   //el descuento será un 10% del total
-
   if (comprarEntradas.descuento != "") {
     if (comprarEntradas.descuento !== "JSA24") {
       alert("Código de descuento inválido");
@@ -179,7 +181,7 @@ function calculoCompra() {
 
   //return total;
   document.getElementById("respuesta").innerHTML +=
-    "Total: " + total + " €<br>";
+    "Total: " + total.toFixed(2) + " €<br>";
 }
 
 function calcularDiasRestantes() {
@@ -230,9 +232,34 @@ function crearDescripcion() {
     "<br>";
 }
 
+function validarCampos() {
+  const campos = [
+      "nombre", "apellidos", "email", "dni", "edad", "entradas_general", "entradas_vip"
+  ]
+
+  for(let campo of campos){
+    let valor = document.getElementById(campo).value;
+
+    if (campo === "entradas_general" || campo === "entradas_vip") {
+      let entradasGeneral = document.getElementById("entradas_general").value;
+      let entradasVip = document.getElementById("entradas_vip").value;
+      if (entradasGeneral.trim() === "" && entradasVip.trim() === "") {
+        alert("Por favor, introduzca mínimo 1 entrada");
+        return false;
+      }
+    } else if (valor.trim() === ""){
+      alert("Por favor, rellene el campo " + campo);
+      return false;
+    }
+    return true;
+  }
+}
+
 function Enviar() {
   document.getElementById("respuesta").innerHTML = "";
-  calculoCompra();
-  calcularDiasRestantes();
-  crearDescripcion();
+  if (validarCampos()) {
+    calculoCompra();
+    calcularDiasRestantes();
+    crearDescripcion();
+  }
 }
