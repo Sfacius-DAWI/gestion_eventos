@@ -119,7 +119,7 @@ function getconciertos(nombre) {
 function tiempo_limite() {
   setTimeout(() => {
     alert("Tiempo acabado");
-  }, 2 * 60 * 1000); // 2 minutos en milisegundos
+  }, 20 * 60 * 1000); // 20 minutos en milisegundos
 }
 
 const estadoVentas = {
@@ -255,11 +255,51 @@ function validarCampos() {
   }
 }
 
+async function programarNotificación(tiempo, artista) {
+  const hora_minutos = tiempo.split(":");
+  const hora = hora_minutos[0];
+  const minutos = hora_minutos[1];
+
+  const tiempoActual = new Date();
+  const notificaciónHora = new Date();
+
+  notificaciónHora.setHours(hora);
+  notificaciónHora.setMinutes(minutos);
+  notificaciónHora.setSeconds(0);
+  notificaciónHora.setMilliseconds(0);
+
+  const tiempoRestante = notificaciónHora - tiempoActual;
+
+  while (tiempoRestante > 0) {
+    if (tiempoRestante <= 300000) { // Menos de 5 minutos
+      await new Promise((resolve) => setTimeout(resolve, tiempoRestante));
+      alert(`Tu concierto de ${artista} está por comenzar.`);
+      break;
+    } else {
+      await new Promise((resolve) => setTimeout(resolve, 300000)); // Espera 5 minutos
+      tiempoRestante = notificaciónHora - new Date();
+    }
+  }
+  }
+
+
+function checkbox () {
+  let checkbox = document.getElementById("recordatorio_dia");
+  if (checkbox.checked) {
+  
+  } else {
+    document.getElementById("entradas_vip").value = 0;
+    document.getElementById("entradas_general").value = 0;
+  }
+}
+
 function Enviar() {
   document.getElementById("respuesta").innerHTML = "";
   if (validarCampos()) {
     calculoCompra();
     calcularDiasRestantes();
     crearDescripcion();
+    programarNotificación()
+    checkbox();
   }
 }
