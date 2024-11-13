@@ -2,7 +2,7 @@ let conciertos = [
   {
     artista: "melendi",
     lugar: "palacio vistaalegre",
-    fecha: new Date("2024-11-17T00:00:00"),
+    fecha: new Date("2024-12-29T00:00:00"),
     limite_entradas: 1000,
     cancelable: true,
   },
@@ -196,11 +196,15 @@ function calcularDiasRestantes() {
 }
 
 function crearDescripcion() {
+  // enero comienza por 0
   const comprarEntradas = comprarentradas();
 
   let dia = comprarEntradas.fecha.getDate();
-  let mes = comprarEntradas.fecha.getMonth();
+  
+  let mes = comprarEntradas.fecha.getMonth() + 1;
+  
   let año = comprarEntradas.fecha.getFullYear();
+  
 
   document.getElementById("respuesta").innerHTML +=
     "Descripción: Concierto de " +
@@ -245,7 +249,14 @@ function validarCampos() {
   }
 }
 
-async function programarNotificación(tiempo, artista) {
+async function programarNotificación(artista) {
+
+   const tiempo =  document.getElementById('recordatorio_horas').value ?? null 
+  
+  if (tiempo === null) {
+    return ""
+  }
+
   const hora_minutos = tiempo.split(":");
   const hora = hora_minutos[0];
   const minutos = hora_minutos[1];
@@ -263,10 +274,10 @@ async function programarNotificación(tiempo, artista) {
   while (tiempoRestante > 0) {
     if (tiempoRestante <= 300000) { // Menos de 5 minutos
       await new Promise((resolve) => setTimeout(resolve, tiempoRestante));
-      alert(`Tu concierto de ${artista} está por comenzar.`);
+      alert(`tu recordatorio para el concierto de ${artista} es ahora`);
       break;
     } else {
-      await new Promise((resolve) => setTimeout(resolve, 300000)); // Espera 5 minutos
+      await new Promise((resolve) => setTimeout(resolve, 300000)); 
       tiempoRestante = notificationHora - new Date();
     }
   }
@@ -296,12 +307,13 @@ function calcularDivisionIngresos(porcentajeArtista) {
 
 function Enviar() {
   document.getElementById("respuesta").innerHTML = "";
+  const artista = comprarentradas().artista
   if (validarCampos()) {
     calculoCompra();
     calcularDiasRestantes();
     crearDescripcion();
     calcularDivisionIngresos(0.6);
-    programarNotificación()
+    programarNotificación(artista);
     checkbox();
   }
 }
