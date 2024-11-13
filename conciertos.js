@@ -150,14 +150,16 @@ function calculoCompra() {
     alert("Sólo se pueden comprar hasta 4 entradas por persona");
   }
 
-  total += vip * precioVip;
-  estadoVentas.totalVipVendidas += vip;
-
-  total += general * precioGeneral;
-  estadoVentas.totalGeneralVendidas += general;
+  if (!isNaN(vip) && vip !== 0) {
+    total += vip * precioVip;
+    estadoVentas.totalVipVendidas += vip;
+  }
+  if (!isNaN(general) && general !== 0) {
+    total += general * precioGeneral;
+    estadoVentas.totalGeneralVendidas += general;
+  }
 
   //el descuento será un 10% del total
-
   if (comprarEntradas.descuento != "") {
     if (comprarEntradas.descuento !== "JSA24") {
       alert("Código de descuento inválido");
@@ -179,7 +181,7 @@ function calculoCompra() {
 
   //return total;
   document.getElementById("respuesta").innerHTML +=
-    "Total: " + total + " €<br>";
+    "Total: " + total.toFixed(2) + " €<br>";
 }
 
 function calcularDiasRestantes() {
@@ -230,49 +232,34 @@ function crearDescripcion() {
     "<br>";
 }
 
-async function programarNotificación(tiempo, artista) {
-  const hora_minutos = tiempo.split(":");
-  const hora = hora_minutos[0];
-  const minutos = hora_minutos[1];
+function validarCampos() {
+  const campos = [
+      "nombre", "apellidos", "email", "dni", "edad", "entradas_general", "entradas_vip"
+  ]
 
-  const tiempoActual = new Date();
-  const notificaciónHora = new Date();
+  for(let campo of campos){
+    let valor = document.getElementById(campo).value;
 
-  notificaciónHora.setHours(hora);
-  notificaciónHora.setMinutes(minutos);
-  notificaciónHora.setSeconds(0);
-  notificaciónHora.setMilliseconds(0);
-
-  const tiempoRestante = notificaciónHora - tiempoActual;
-
-  while (tiempoRestante > 0) {
-    if (tiempoRestante <= 300000) { // Menos de 5 minutos
-      await new Promise((resolve) => setTimeout(resolve, tiempoRestante));
-      alert(`Tu concierto de ${artista} está por comenzar.`);
-      break;
-    } else {
-      await new Promise((resolve) => setTimeout(resolve, 300000)); // Espera 5 minutos
-      tiempoRestante = notificaciónHora - new Date();
+    if (campo === "entradas_general" || campo === "entradas_vip") {
+      let entradasGeneral = document.getElementById("entradas_general").value;
+      let entradasVip = document.getElementById("entradas_vip").value;
+      if (entradasGeneral.trim() === "" && entradasVip.trim() === "") {
+        alert("Por favor, introduzca mínimo 1 entrada");
+        return false;
+      }
+    } else if (valor.trim() === ""){
+      alert("Por favor, rellene el campo " + campo);
+      return false;
     }
-  }
-  }
-
-
-function checkbox () {
-  let checkbox = document.getElementById("recordatorio_dia");
-  if (checkbox.checked) {
-  
-  } else {
-    document.getElementById("entradas_vip").value = 0;
-    document.getElementById("entradas_general").value = 0;
+    return true;
   }
 }
 
-
-async function Enviar() {
+function Enviar() {
   document.getElementById("respuesta").innerHTML = "";
-  calculoCompra();
-  calcularDiasRestantes();
-  crearDescripcion();
-  await tiempo_limite();
+  if (validarCampos()) {
+    calculoCompra();
+    calcularDiasRestantes();
+    crearDescripcion();
+  }
 }
