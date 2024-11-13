@@ -261,14 +261,14 @@ async function programarNotificación(tiempo, artista) {
   const minutos = hora_minutos[1];
 
   const tiempoActual = new Date();
-  const notificaciónHora = new Date();
+  const notificationHora = new Date();
 
-  notificaciónHora.setHours(hora);
-  notificaciónHora.setMinutes(minutos);
-  notificaciónHora.setSeconds(0);
-  notificaciónHora.setMilliseconds(0);
+  notificationHora.setHours(hora);
+  notificationHora.setMinutes(minutos);
+  notificationHora.setSeconds(0);
+  notificationHora.setMilliseconds(0);
 
-  const tiempoRestante = notificaciónHora - tiempoActual;
+  let tiempoRestante = notificationHora - tiempoActual;
 
   while (tiempoRestante > 0) {
     if (tiempoRestante <= 300000) { // Menos de 5 minutos
@@ -277,7 +277,7 @@ async function programarNotificación(tiempo, artista) {
       break;
     } else {
       await new Promise((resolve) => setTimeout(resolve, 300000)); // Espera 5 minutos
-      tiempoRestante = notificaciónHora - new Date();
+      tiempoRestante = notificationHora - new Date();
     }
   }
   }
