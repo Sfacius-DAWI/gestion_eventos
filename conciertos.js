@@ -129,15 +129,10 @@ const estadoVentas = {
   totalGeneralVendidas: 0,
 };
 
-function descuentoValidator(descuento) {
-  if (descuento !== "JSA24") {
-    alert("Código de descuento inválido");
-    return false;
-  }
-}
-
 function calculoCompra() {
   const comprarEntradas = comprarentradas();
+  estadoVentas.totalVipVendidas = 0;
+  estadoVentas.totalGeneralVendidas = 0;
   //entrada será un obj o array que tendrá la cantidad y el tipo de cada entrada
   // ["VIP#3", "General#4"]
   const precioVip = 50;
@@ -181,7 +176,9 @@ function calculoCompra() {
 
   //return total;
   document.getElementById("respuesta").innerHTML +=
-    "Total: " + total.toFixed(2) + " €<br>";
+    "Total: " + total.toFixed(2) + " €<br>" +
+    "Total entradas VIP vendidas: " + estadoVentas.totalVipVendidas + " €<br>" +
+    "Total entradas generales vendidas: " + estadoVentas.totalGeneralVendidas + " €<br>";
 }
 
 function calcularDiasRestantes() {
